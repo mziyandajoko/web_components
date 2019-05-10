@@ -1,43 +1,43 @@
-class countryFlag extends HTMLElement {
+class chatBox extends HTMLElement {
   constructor() {
-     super();
-     this.shadow = this.createShadowRoot();
+    super();
+    this._shadowRoot = this.attachShadow({mode: 'open'});
 
-     this._countryCode = null;
-   }
-    static get observedAttributes (){
-      return['country'];
   }
 
-  attributeChangedCallback(name ,newValue ,oldValue){
-    this._countryCode = newValue;
-    this._updateRendering();
+  static get observedAttributes(){
+    return ["name","msgBox"];
   }
-
+  attributeChangedCallback(name, msgBox, oldValue, newValue) {
+    this._shadowRoot.innerHTML = `<p>${newValue} ${newValue}</p>`;
+  }
   connectedCallback(){
-    this._updateRendering();
-  }
+    let name = this.getAttribute("name");
+    let msgBox = this.getAttribute("msgBox");
+    this._shadowRoot.innerHTML = `
+                                  <style>
+                                      .updateBox{
+                                        width:500px;
+                                        height:300px;
+                                        border:2px solid black;
+                                        margin-left:50px;
+                                        padding:5px;
+                                        }
+                                  </style>
 
-  get country(){
-  return this._countryCode;
-  }
+                                  <div class="updateBox"><p>${name} : ${msgBox}</p></div>
+                                    <br />
+                                    <br />
+                                  <form class="" action="index.html" method="post">
+                                    <label for="inputext">Type a massage</label>
+                                    <input type="text" id="inputext" name ="inputext" value="" onclick="typeAlert()">
+                                  </form>
 
-  set country(value){
-    return this.setAttribute('country',value);
-  }
 
-  _updateRendering(){
-    //This needs to be done
-   console.log("component _updateRendering loads");
+    `;
+
   }
 
 }
-  const countryFlagIcon = new countryFlag();
-  countryFlagIcon.country = "jp"
-  document.body.appendChild(countryFlagIcon)
 
-
-
-
-
-window.customElements.define('country-flag', countryFlag);
+window.customElements.define('chat-box', chatBox);

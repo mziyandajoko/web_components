@@ -2,30 +2,35 @@ class component extends HTMLElement{
   constructor() {
     super();
 
+    const navItems = ["home","about" , "contact"];
     this.attachShadow({mode : "open"});
     this.shadowRoot.innerHTML=`
     <ul>
-    <li><a href="#">Home</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#">Contact</a></li>
+      ${
+        navItems.map((o) => {
+          return `<li>${o}</li>`
+        }).join('')
+      }
     </ul>
     <style>
         ul{
           background-color:red;
+          text-align:center;
+          overflow: auto;
         }
         li{
-          display:inline-block
+          display:inline-block;
+          padding: 15px;
         }
 
       </style>
       `
         var button = document.getElementById('button');
           button.addEventListener('click', () => {
+            alert('clicked');
 
-          alert('button clicked')
           })
-
   }
 }
 
-window.customElements.define("test-component", component);
+window.customElements.define("nav-component", component);
